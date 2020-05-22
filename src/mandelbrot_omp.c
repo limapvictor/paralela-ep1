@@ -152,16 +152,18 @@ void compute_mandelbrot()
     double c_x;
     double c_y;
 
-    #pragma omp parallel for num_threads(threads) \
+    #pragma omp parallel num_threads(threads) \
         private(i_y, c_y, i_x, c_x, iteration, z_x, z_y, z_x_squared, z_y_squared)
+    {
+        #pragma omp for
         for (i_y = 0; i_y < i_y_max; i_y++) {
             c_y = c_y_min + i_y * pixel_height;
 
-            if(fabs(c_y) < pixel_height / 2){
+            if (fabs(c_y) < pixel_height / 2) {
                 c_y = 0.0;
-            };
+            }
 
-            for (i_x = 0; i_x < i_x_max; i_x++){
+            for (i_x = 0; i_x < i_x_max; i_x++) {
                 c_x         = c_x_min + i_x * pixel_width;
 
                 z_x         = 0.0;
@@ -184,6 +186,8 @@ void compute_mandelbrot()
                 update_rgb_buffer(iteration, i_x, i_y);
             }
         }
+    }
+    #pragma omp barrier
 }
 
 void start_timer(struct timer_info *timer_pointer) 
@@ -210,10 +214,10 @@ int main(int argc, char *argv[])
     compute_mandelbrot();
     finish_timer(&program_timer);
 
-    deallocate_image_buffer();
-
     write_to_file();
 
+    deallocate_image_buffer();
+    
     printf("%f\n",
         (double) (program_timer.t_end.tv_sec - program_timer.t_start.tv_sec) +
         (double) (program_timer.t_end.tv_nsec - program_timer.t_start.tv_nsec) / 1000000000.0);

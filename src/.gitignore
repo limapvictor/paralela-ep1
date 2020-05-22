@@ -1,0 +1,4 @@
+results/
+.ipynb_checkpoints/
+mandelbrot_*
+!*.c

@@ -20,6 +20,7 @@ for NAME in ${NAMES[@]}; do
     else 
         end=6
     fi
+    THREADS=$INITIAL_THREADS
     for ((t=1; t<=$end; t++)); do
         SIZE=$INITIAL_SIZE
         for ((i=1; i<=$ITERATIONS; i++)); do

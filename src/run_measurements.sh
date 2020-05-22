@@ -39,8 +39,6 @@ for NAME in ${NAMES[@]}; do
         THREADS=$(($THREADS * 2))
     done
 
-    SIZE=$INITIAL_SIZE
-    THREADS=$INITIAL_THREADS
     mv *.log results/$NAME
     rm output.ppm
 done

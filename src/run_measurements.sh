@@ -2,19 +2,18 @@
 
 set -o xtrace
 
-MEASUREMENTS=2
-ITERATIONS=5
-INITIAL_SIZE=128
+MEASUREMENTS=10
+ITERATIONS=10
+INITIAL_SIZE=16
+INITIAL_THREADS=1
 
-# NAMES=('mandelbrot_seq' 'mandelbrot_pth' 'mandelbrot_omp')
-NAMES=('mandelbrot_seq' 'mandelbrot_pth')
+NAMES=('mandelbrot_seq' 'mandelbrot_pth' 'mandelbrot_omp')
 
 make
 mkdir results
 
 for NAME in ${NAMES[@]}; do
     mkdir results/$NAME
-    THREADS=1
     if [ $NAME = 'mandelbrot_seq' ] 
     then
         end=1
@@ -40,7 +39,7 @@ for NAME in ${NAMES[@]}; do
     done
 
     SIZE=$INITIAL_SIZE
-
+    THREADS=$INITIAL_THREADS
     mv *.log results/$NAME
     rm output.ppm
 done
